@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:5
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  app:
+    build: .
+    container_name: mms-oms-app
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=${MONGO_URI}
+    env_file:
+      - .env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run start:dev
+
+volumes:
+  mongo-data:
