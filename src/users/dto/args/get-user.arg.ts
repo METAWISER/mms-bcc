@@ -1,8 +1,10 @@
-import { Field, ID } from '@nestjs/graphql';
-import { IsInt } from 'class-validator';
+import { Field, ID, InputType } from '@nestjs/graphql';
+import { IsNotEmpty, IsString } from 'class-validator';
 
+@InputType()
 export class GetUserArgs {
   @Field(() => ID, { description: 'user ID' })
-  @IsInt()
-  id: number;
+  @IsString()
+  @IsNotEmpty()
+  id: string;
 }
