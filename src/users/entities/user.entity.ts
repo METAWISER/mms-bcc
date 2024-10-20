@@ -2,7 +2,7 @@ import { Field, HideField, ObjectType } from '@nestjs/graphql';
 import { v4 as uuidv4 } from 'uuid';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Bcrypt } from 'src/domain/value-objects/bcrypt.vo';
+import { Bcrypt } from '../../domain/value-objects/bcrypt.vo';
 
 @ObjectType()
 @Schema()
