@@ -9,7 +9,6 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { UsersModule } from './users/users.module';
 import { OrdersModule } from './orders/orders.module';
 import { ProductsModule } from './products/products.module';
-import { WorkersModule } from './workers/workers.module';
 import { AuthModule } from './auth/auth.module';
 import { DomainModule } from './domain/domain.module';
 
@@ -33,7 +32,6 @@ import { DomainModule } from './domain/domain.module';
     UsersModule,
     OrdersModule,
     ProductsModule,
-    WorkersModule,
     AuthModule,
     DomainModule,
   ],
