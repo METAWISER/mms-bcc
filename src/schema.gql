@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuthResponse {
+  token: String!
+  user: User!
+}
+
 input CreateOrderInput {
   """Example field (placeholder)"""
   exampleField: Int!
@@ -33,6 +38,16 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input GetUserArgs {
+  """user ID"""
+  id: ID!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
 type Mutation {
   createOrder(createOrderInput: CreateOrderInput!): Order!
   createProduct(createProductInput: CreateProductInput!): Product!
@@ -40,9 +55,14 @@ type Mutation {
   """Create a user"""
   createUser(createUserInput: CreateUserInput!): User!
   createWorker(createWorkerInput: CreateWorkerInput!): Worker!
+
+  """Delete a user"""
+  deleteUser(getUserArgs: GetUserArgs!): User
+  login(loginInput: LoginInput!): AuthResponse!
   removeOrder(id: Int!): Order!
   removeProduct(id: Int!): Product!
   removeWorker(id: Int!): Worker!
+  signup(signupInput: SignupInput!): AuthResponse!
   updateOrder(updateOrderInput: UpdateOrderInput!): Order!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
   updateWorker(updateWorkerInput: UpdateWorkerInput!): Worker!
@@ -63,14 +83,21 @@ type Query {
   orders: [Order!]!
   product(id: Int!): Product!
   products: [Product!]!
+  revalidate: AuthResponse!
 
   """Get user by id"""
-  user(id: ID!): User!
+  user(getUserArgs: GetUserArgs!): User!
 
   """Get all users"""
   users: [User!]!
   worker(id: Int!): Worker!
   workers: [Worker!]!
+}
+
+input SignupInput {
+  email: String!
+  name: String!
+  password: String!
 }
 
 input UpdateOrderInput {
@@ -104,8 +131,8 @@ type User {
   """user name"""
   name: String!
 
-  """user password"""
-  password: String!
+  """user roles"""
+  roles: [String!]!
 
   """Last update date"""
   updatedAt: DateTime!
