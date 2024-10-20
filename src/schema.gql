@@ -1,0 +1,117 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateOrderInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateProductInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateUserInput {
+  """user email"""
+  email: String!
+
+  """user name"""
+  name: String!
+
+  """user password"""
+  password: String!
+}
+
+input CreateWorkerInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  createOrder(createOrderInput: CreateOrderInput!): Order!
+  createProduct(createProductInput: CreateProductInput!): Product!
+
+  """Create a user"""
+  createUser(createUserInput: CreateUserInput!): User!
+  createWorker(createWorkerInput: CreateWorkerInput!): Worker!
+  removeOrder(id: Int!): Order!
+  removeProduct(id: Int!): Product!
+  removeWorker(id: Int!): Worker!
+  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  updateWorker(updateWorkerInput: UpdateWorkerInput!): Worker!
+}
+
+type Order {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Product {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Query {
+  order(id: Int!): Order!
+  orders: [Order!]!
+  product(id: Int!): Product!
+  products: [Product!]!
+
+  """Get user by id"""
+  user(id: ID!): User!
+
+  """Get all users"""
+  users: [User!]!
+  worker(id: Int!): Worker!
+  workers: [Worker!]!
+}
+
+input UpdateOrderInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateProductInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateWorkerInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+type User {
+  """UUID"""
+  _id: String!
+
+  """Creation date"""
+  createdAt: DateTime!
+
+  """user email"""
+  email: String!
+
+  """user name"""
+  name: String!
+
+  """user password"""
+  password: String!
+
+  """Last update date"""
+  updatedAt: DateTime!
+}
+
+type Worker {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
