@@ -11,5 +11,6 @@ import { DomainModule } from 'src/domain/domain.module';
     DomainModule,
   ],
   providers: [UserResolver, UsersService],
+  exports: [UsersService],
 })
-export class UserModule {}
+export class UsersModule {}
