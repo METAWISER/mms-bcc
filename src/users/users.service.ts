@@ -48,9 +48,16 @@ export class UsersService {
     }
   }
 
-  async delete(id: string): Promise<User> {
-    const user = await this.userModel.findByIdAndDelete(id);
+  async delete(id: string): Promise<User | null> {
+    const user = await this.userModel
+      .findOneAndDelete({ $or: [{ _id: id }, { email: id }] })
+      .lean()
+      .exec();
 
-    return user.toObject();
+    if (!user) {
+      throw new BadRequestException(`User with ID or email ${id} not found`);
+    }
+
+    return user as User;
   }
 }
