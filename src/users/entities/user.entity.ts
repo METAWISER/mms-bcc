@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, HideField, ObjectType } from '@nestjs/graphql';
 import { v4 as uuidv4 } from 'uuid';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
@@ -19,9 +19,14 @@ export class User extends Document {
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Field(() => String, { description: 'user password' })
+  @Field(() => String, { description: 'user password', nullable: true })
   @Prop({ required: true })
+  @HideField()
   password: string;
+
+  @Field(() => [String], { description: 'user roles' })
+  @Prop({ type: [String], default: ['client'] })
+  roles: string[];
 
   @Field(() => Date, { description: 'Creation date' })
   @Prop({ default: Date.now })
