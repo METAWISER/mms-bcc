@@ -1,7 +1,8 @@
-import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 import { CreateUserInput } from './dto/inputs/create-user.input';
+import { GetUserArgs } from './dto/args/get-user.arg';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -14,9 +15,9 @@ export class UserResolver {
 
   @Query(() => User, { name: 'user', description: 'Get user by id' })
   async findOne(
-    @Args('id', { type: () => ID }) id: string,
+    @Args('getUserArgs') getUserArgs: GetUserArgs,
   ): Promise<Partial<User>> {
-    return await this.userService.findOne(id);
+    return await this.userService.findOne(getUserArgs.id);
   }
 
   @Mutation(() => User, {
@@ -33,9 +34,7 @@ export class UserResolver {
     name: 'deleteUser',
     description: 'Delete a user',
   })
-  async delete(
-    @Args('id', { type: () => ID }) id: string,
-  ): Promise<User | null> {
-    return await this.userService.delete(id);
+  async delete(@Args('getUserArgs') getUserArgs: GetUserArgs): Promise<User> {
+    return await this.userService.delete(getUserArgs.id);
   }
 }
