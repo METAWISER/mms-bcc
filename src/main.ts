@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { AppConfigService } from './config/app/app-config.service';
+import { GraphqlExceptionFilter } from './filters/graphql-exeption.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,8 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+
+  app.useGlobalFilters(new GraphqlExceptionFilter());
   app.setGlobalPrefix('api');
   await app.listen(appConfigService.port, appConfigService.url);
   logger.log(`API running on port ${appConfigService.port}`);
