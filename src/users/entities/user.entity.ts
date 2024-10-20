@@ -19,9 +19,8 @@ export class User extends Document {
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Field(() => String, { description: 'user password', nullable: true })
-  @Prop({ required: true })
   @HideField()
+  @Prop({ required: true })
   password: string;
 
   @Field(() => [String], { description: 'user roles' })
