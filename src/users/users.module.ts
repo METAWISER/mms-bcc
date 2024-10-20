@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserResolver } from './users.resolver';
 import { UsersService } from './users.service';
 import { User, UserSchema } from './entities/user.entity';
-import { DomainModule } from 'src/domain/domain.module';
+import { DomainModule } from '../domain/domain.module';
 
 @Module({
   imports: [
