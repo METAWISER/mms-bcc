@@ -2,30 +2,30 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AssignEmployeeInput {
+  """Order ID"""
+  orderId: String!
+}
+
 type AuthResponse {
   token: String!
   user: User!
 }
 
 input CreateOrderInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """List of product IDs included in the order"""
+  products: [String!]!
 }
 
 input CreateProductInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
+  """Product description"""
+  description: String!
 
-input CreateUserInput {
-  """user email"""
-  email: String!
-
-  """user name"""
+  """Product name"""
   name: String!
 
-  """user password"""
-  password: String!
+  """Product price (integer value)"""
+  price: Int!
 }
 
 """
@@ -44,36 +44,80 @@ input LoginInput {
 }
 
 type Mutation {
-  createOrder(createOrderInput: CreateOrderInput!): Order!
-  createProduct(createProductInput: CreateProductInput!): Product!
+  """Assign an employee to an order"""
+  assignEmployee(assignEmployeeInput: AssignEmployeeInput!): Order!
 
-  """Create a user"""
-  createUser(createUserInput: CreateUserInput!): User!
+  """Create an order, only available for clients"""
+  createOrder(createOrderInput: CreateOrderInput!): Order!
+
+  """Create a new product"""
+  createProduct(createProductInput: CreateProductInput!): Product!
 
   """Delete a user"""
   deleteUser(getUserArgs: GetUserArgs!): User
   login(loginInput: LoginInput!): AuthResponse!
-  removeOrder(id: Int!): Order!
-  removeProduct(id: Int!): Product!
   signup(signupInput: SignupInput!): AuthResponse!
-  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
-  updateProduct(updateProductInput: UpdateProductInput!): Product!
 }
 
 type Order {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """Order UUID"""
+  _id: String!
+
+  """Employee assigned to the order"""
+  assignedEmployee: User
+
+  """Creation date"""
+  createdAt: DateTime!
+
+  """List of product IDs"""
+  products: [String!]
+
+  """Order status"""
+  status: OrderStatus!
+
+  """Total price of the order"""
+  total: Float!
+
+  """Last update date"""
+  updatedAt: DateTime!
+
+  """User who placed the order"""
+  user: User!
+}
+
+"""Different states an order can be in"""
+enum OrderStatus {
+  CANCELLED
+  COMPLETED
+  IN_PROGRESS
+  PENDING
 }
 
 type Product {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """Product UUID"""
+  _id: String!
+
+  """Creation date"""
+  createdAt: DateTime!
+
+  """Product description"""
+  description: String!
+
+  """Product name"""
+  name: String!
+
+  """Product price"""
+  price: Float!
+
+  """Last update date"""
+  updatedAt: DateTime!
 }
 
 type Query {
-  order(id: Int!): Order!
-  orders: [Order!]!
-  product(id: Int!): Product!
+  orders(
+    """Status of the order"""
+    status: OrderStatus
+  ): [Order!]!
   products: [Product!]!
   revalidate: AuthResponse!
 
@@ -81,25 +125,17 @@ type Query {
   user(getUserArgs: GetUserArgs!): User!
 
   """Get all users"""
-  users: [User!]!
+  users(
+    """Role of the user"""
+    roles: [ValidRoles!] = []
+  ): [User!]!
 }
 
 input SignupInput {
   email: String!
   name: String!
   password: String!
-}
-
-input UpdateOrderInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input UpdateProductInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  roles: [ValidRoles!] = [CLIENT]
 }
 
 type User {
@@ -120,4 +156,10 @@ type User {
 
   """Last update date"""
   updatedAt: DateTime!
+}
+
+enum ValidRoles {
+  ADMIN
+  CLIENT
+  EMPLOYEE
 }
