@@ -45,4 +45,16 @@ export class OrdersResolver {
   ): Promise<Order> {
     return await this.ordersService.assignEmployee(assignEmployeeInput, user);
   }
+
+  @Mutation(() => Order, {
+    name: 'completeOrder',
+    description: 'Mark an order as completed',
+  })
+  async completeOrder(
+    @Args('orderId') orderId: string,
+    @CurrentUser([ValidRoles.ADMIN, ValidRoles.EMPLOYEE]) user: User,
+  ): Promise<Order> {
+    void user;
+    return await this.ordersService.completeOrder(orderId);
+  }
 }
