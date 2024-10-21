@@ -7,7 +7,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { ValidRoles } from 'src/auth/enums/valid-roles.enum';
+import { ValidRoles } from '../../../auth/enums/valid-roles.enum';
 
 @InputType()
 export class CreateUserInput {
