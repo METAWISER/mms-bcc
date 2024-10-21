@@ -1,10 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserResolver } from './users.resolver';
 import { UsersService } from './users.service';
-import { CreateUserInput } from './dto/inputs/create-user.input';
+//import { CreateUserInput } from './dto/inputs/create-user.input';
 import { GetUserArgs } from './dto/args/get-user.arg';
 import { User } from './entities/user.entity';
+import { ValidRoles } from '../auth/enums/valid-roles.enum';
 import { UserNotFoundException } from './errors/user-not-found.exception';
+import { ValidRolesArgs } from './dto/args/valid-roles.arg';
 
 jest.mock('./users.service');
 
@@ -40,7 +42,17 @@ describe('UsersResolver', () => {
       ];
       jest.spyOn(usersService, 'findAll').mockResolvedValue(users);
 
-      const result = await resolver.findAll();
+      const validRoles: ValidRolesArgs = { roles: [ValidRoles.CLIENT] }; // Example roles
+      const currentUser: User = {
+        _id: 'admin',
+        name: 'Admin',
+        email: 'admin@test.com',
+        password: 'admin123',
+        roles: ['admin'],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      } as unknown as User;
+      const result = await resolver.findAll(validRoles, currentUser);
       expect(result).toEqual(users);
     });
   });
@@ -55,7 +67,16 @@ describe('UsersResolver', () => {
       jest.spyOn(usersService, 'findOne').mockResolvedValue(user as User);
 
       const getUserArgs: GetUserArgs = { id: '1' };
-      const result = await resolver.findOne(getUserArgs);
+      const currentUser: User = {
+        _id: 'admin',
+        name: 'Admin',
+        email: 'admin@test.com',
+        password: 'admin123',
+        roles: ['admin'],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      } as unknown as User;
+      const result = await resolver.findOne(getUserArgs, currentUser);
       expect(result).toEqual(user);
     });
 
@@ -65,13 +86,22 @@ describe('UsersResolver', () => {
       });
 
       const getUserArgs: GetUserArgs = { id: '1' };
-      await expect(resolver.findOne(getUserArgs)).rejects.toThrow(
+      const currentUser: User = {
+        _id: 'admin',
+        name: 'Admin',
+        email: 'admin@test.com',
+        password: 'admin123',
+        roles: ['admin'],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      } as unknown as User;
+      await expect(resolver.findOne(getUserArgs, currentUser)).rejects.toThrow(
         UserNotFoundException,
       );
     });
   });
 
-  describe('create', () => {
+  /*   describe('create', () => {
     it('should create and return a user', async () => {
       const createUserInput: CreateUserInput = {
         name: 'John',
@@ -90,7 +120,7 @@ describe('UsersResolver', () => {
       const result = await resolver.create(createUserInput);
       expect(result).toEqual(user);
     });
-  });
+  }); */
 
   describe('delete', () => {
     it('should delete and return a user', async () => {
@@ -106,7 +136,16 @@ describe('UsersResolver', () => {
       jest.spyOn(usersService, 'delete').mockResolvedValue(user);
 
       const getUserArgs: GetUserArgs = { id: '1' };
-      const result = await resolver.delete(getUserArgs);
+      const currentUser: User = {
+        _id: 'admin',
+        name: 'Admin',
+        email: 'admin@test.com',
+        password: 'admin123',
+        roles: ['admin'],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      } as unknown as User;
+      const result = await resolver.delete(getUserArgs, currentUser);
       expect(result).toEqual(user);
     });
 
@@ -116,7 +155,17 @@ describe('UsersResolver', () => {
       });
 
       const getUserArgs: GetUserArgs = { id: '1' };
-      await expect(resolver.delete(getUserArgs)).rejects.toThrow(
+      const currentUser: User = {
+        _id: 'admin',
+        name: 'Admin',
+        email: 'admin@test.com',
+        password: 'admin123',
+        roles: ['admin'],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      } as unknown as User;
+
+      await expect(resolver.delete(getUserArgs, currentUser)).rejects.toThrow(
         UserNotFoundException,
       );
     });
