@@ -8,6 +8,7 @@ import { Model } from 'mongoose';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/inputs/create-user.input';
 import { UserNotFoundException } from './errors/user-not-found.exception';
+import { ValidRoles } from 'src/auth/enums/valid-roles.enum';
 
 @Injectable()
 export class UsersService {
@@ -15,8 +16,14 @@ export class UsersService {
     @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
-  async findAll(): Promise<User[]> {
-    return (await this.userModel.find().lean().exec()) as User[];
+  async findAll(roles: ValidRoles[]): Promise<User[]> {
+    if (roles.length === 0) {
+      return (await this.userModel.find().lean().exec()) as User[];
+    }
+    return (await this.userModel
+      .find({ roles: { $in: roles } })
+      .lean()
+      .exec()) as User[];
   }
 
   async findOne(idOrEmail: string): Promise<User> {
