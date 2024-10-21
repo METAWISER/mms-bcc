@@ -1,5 +1,13 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import {
+  IsArray,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
+import { ValidRoles } from 'src/auth/enums/valid-roles.enum';
 
 @InputType()
 export class CreateUserInput {
@@ -17,4 +25,13 @@ export class CreateUserInput {
   @MinLength(6, { message: 'Password must be at least 6 characters long' })
   @IsString()
   password: string;
+
+  @Field(() => [ValidRoles], {
+    description: 'user roles',
+    nullable: true,
+    defaultValue: [ValidRoles.CLIENT],
+  })
+  @IsArray()
+  @IsOptional()
+  roles: ValidRoles[];
 }
