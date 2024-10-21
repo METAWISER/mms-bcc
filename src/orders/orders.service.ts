@@ -104,4 +104,37 @@ export class OrdersService {
 
     return updatedOrder as Order;
   }
+
+  async completeOrder(orderId: string): Promise<Order> {
+    const order = await this.orderModel
+      .findOne({ _id: orderId })
+      .populate('user')
+      .populate('assignedEmployee')
+      .exec();
+
+    if (!order) {
+      throw new BadRequestException(`Order with ID ${orderId} not found`);
+    }
+
+    this.validateOrderStatusForCompletion(order);
+
+    order.status = OrderStatus.COMPLETED;
+    await order.save();
+
+    return order.toObject();
+  }
+
+  private validateOrderStatusForCompletion(order: Order): void {
+    if (order.status === OrderStatus.COMPLETED) {
+      throw new BadRequestException(
+        `Order with ID ${order._id} is already completed`,
+      );
+    }
+
+    if (order.status !== OrderStatus.IN_PROGRESS) {
+      throw new BadRequestException(
+        `Order must be in 'in_progress' status to be completed`,
+      );
+    }
+  }
 }
