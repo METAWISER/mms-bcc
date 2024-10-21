@@ -1,10 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateOrderInput } from './dto/inputs/create-order.input';
 import { InjectModel } from '@nestjs/mongoose';
 import { Order } from './entities/order.entity';
 import { Model } from 'mongoose';
 import { User } from 'src/users/entities/user.entity';
 import { ProductsService } from 'src/products/products.service';
+import { GetOrdersArgs } from './dto/args/get-orders.arg';
+import { OrderStatus } from './enums/order-status.enum';
+import { AssignEmployeeInput } from './dto/inputs/assign-employee.input';
 
 @Injectable()
 export class OrdersService {
@@ -30,5 +37,71 @@ export class OrdersService {
     });
 
     return (await newOrder.save()).toObject();
+  }
+
+  async findAll(getOrdersArgs: GetOrdersArgs): Promise<Order[]> {
+    const { status } = getOrdersArgs;
+
+    const filter = status ? { status } : {};
+    return (await this.orderModel
+      .find(filter)
+      .populate('user')
+      .lean()
+      .exec()) as Order[];
+  }
+
+  async assignEmployee(
+    assignEmployeeInput: AssignEmployeeInput,
+    employeeId: User,
+  ): Promise<Order> {
+    const order = await this.getOrderById(assignEmployeeInput.orderId);
+
+    this.checkOrderNotAssigned(order);
+
+    return await this.updateOrderWithEmployee(order._id, employeeId._id);
+  }
+
+  private async getOrderById(orderId: string): Promise<Order> {
+    const order = await this.orderModel
+      .findById(orderId)
+      .populate('user')
+      .populate('assignedEmployee')
+      .lean()
+      .exec();
+
+    if (!order) {
+      throw new BadRequestException(`Order with ID ${orderId} not found`);
+    }
+
+    return order as Order;
+  }
+
+  private checkOrderNotAssigned(order: Order): void {
+    if (order.assignedEmployee) {
+      throw new BadRequestException(
+        `Order with ID ${order._id} is already assigned to an employee`,
+      );
+    }
+  }
+
+  private async updateOrderWithEmployee(
+    orderId: string,
+    employeeId: string,
+  ): Promise<Order> {
+    const updatedOrder = await this.orderModel
+      .findByIdAndUpdate(
+        orderId,
+        {
+          assignedEmployee: employeeId,
+          status: OrderStatus.IN_PROGRESS,
+        },
+        { new: true },
+      )
+      .populate('user')
+      .populate('assignedEmployee')
+      .lean()
+      .exec();
+
+    return updatedOrder as Order;
   }
 }
