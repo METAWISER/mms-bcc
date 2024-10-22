@@ -11,10 +11,17 @@ import { GraphqlExceptionFilter } from './filters/graphql-exeption.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors();
   const appConfigService: AppConfigService = app.get(AppConfigService);
   const logger = new Logger();
-
+  app.enableCors();
+  //** This is a workaround to avoid favicon requests **
+  app.use((req, res, next) => {
+    if (req.url === '/favicon.ico') {
+      res.status(204).end();
+    } else {
+      next();
+    }
+  });
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalPipes(
     new ValidationPipe({
