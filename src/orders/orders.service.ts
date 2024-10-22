@@ -46,6 +46,7 @@ export class OrdersService {
     return (await this.orderModel
       .find(filter)
       .populate('user')
+      .populate('assignedEmployee')
       .lean()
       .exec()) as Order[];
   }
