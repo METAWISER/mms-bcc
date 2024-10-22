@@ -4,77 +4,77 @@
 
 # MMS Order Management System
 
-## Descripción General
-MMS Order Management System es una aplicación backend diseñada para la gestión eficiente de órdenes en un sistema de tiendas en línea. Esta aplicación permite a los usuarios crear, asignar, y actualizar el estado de las órdenes, proporcionando una estructura clara para la administración tanto de clientes como empleados. La API se ha construido utilizando NestJS y GraphQL, lo que facilita la comunicación flexible y segura entre los componentes del sistema. La base de datos utilizada es MongoDB, que proporciona escalabilidad y flexibilidad para manejar los datos relacionados con usuarios, productos y órdenes.
+## General Overview
+MMS Order Management System is a backend application designed for efficient order management in an online store system. This application allows users to create, assign, and update order statuses, providing a clear structure for managing both clients and employees. The API is built using NestJS and GraphQL, facilitating flexible and secure communication between system components. MongoDB is used as the database, providing scalability and flexibility to handle data related to users, products, and orders.
 
-## Tecnologías Usadas
-- <img src="https://nestjs.com/img/logo_text.svg" alt="NestJS" width="20" height="20" /> **Framework Backend**: NestJS
+## Technologies Used
+- <img src="https://nestjs.com/img/logo_text.svg" alt="NestJS" width="20" height="20" /> **Backend Framework**: NestJS
 - <img src="https://graphql.org/img/logo.svg" alt="GraphQL" width="20" height="20" /> **API**: GraphQL
-- <img src="https://www.mongodb.com/assets/images/global/favicon.ico" alt="MongoDB" width="20" height="20" /> **Base de Datos**: MongoDB
-- **Librerías**:
-  - **Autenticación y Autorización**: Passport, JWT
-  - **Validación de Datos**: class-validator
-  - **Encriptación**: bcrypt
-  - **Otros**: Apollo Server, Mongoose, rxjs, UUID
+- <img src="https://www.mongodb.com/assets/images/global/favicon.ico" alt="MongoDB" width="20" height="20" /> **Database**: MongoDB
+- **Libraries**:
+  - **Authentication and Authorization**: Passport, JWT
+  - **Data Validation**: class-validator
+  - **Encryption**: bcrypt
+  - **Others**: Apollo Server, Mongoose, rxjs, UUID
 
-## Requisitos Previos
-Para correr la aplicación en un entorno local necesitarás tener instalados los siguientes elementos:
+## Prerequisites
+To run the application in a local environment, you will need the following:
 
-- <img src="https://nodejs.org/static/images/favicons/favicon.png" alt="Node.js" width="20" height="20" /> **Node.js** (versión 16 o superior)
-- <img src="https://nodejs.org/static/images/favicons/favicon.png" alt="npm" width="20" height="20" /> **npm** (normalmente viene con Node.js)
-- <img src="https://www.docker.com/favicon.ico" alt="Docker" width="20" height="20" /> **Docker** (para ejecutar la aplicación y la base de datos con contenedores Docker)
-- <img src="https://www.mongodb.com/assets/images/global/favicon.ico" alt="MongoDB" width="20" height="20" /> **MongoDB** (puede ser una instancia local o Dockerizada)
+- <img src="https://nodejs.org/static/images/favicons/favicon.png" alt="Node.js" width="20" height="20" /> **Node.js** (version 16 or higher)
+- <img src="https://nodejs.org/static/images/favicons/favicon.png" alt="npm" width="20" height="20" /> **npm** (usually comes with Node.js)
+- <img src="https://www.docker.com/favicon.ico" alt="Docker" width="20" height="20" /> **Docker** (to run the application and database in Docker containers)
+- <img src="https://www.mongodb.com/assets/images/global/favicon.ico" alt="MongoDB" width="20" height="20" /> **MongoDB** (can be a local instance or Dockerized)
 
-## Instalación
+## Installation
 
-### Clonación del Repositorio
-1. Clonar el repositorio a tu máquina local:
+### Cloning the Repository
+1. Clone the repository to your local machine:
    ```sh
    git clone https://github.com/METAWISER/mms-bcc.git
    cd mms-order-management-system
    ```
-2. Instalar las dependencias:
+2. Install dependencies:
    ```sh
    npm install
    ```
 
-### Ejecución con Docker
-1. Construir la imagen Docker:
+### Running with Docker
+1. Build the Docker image:
    ```sh
    docker build -t mms-order-management-system .
    ```
-2. Ejecutar la aplicación con Docker:
+2. Run the application with Docker:
    ```sh
    docker run -p 3000:3000 --env-file .env mms-order-management-system
    ```
-   Asegúrate de tener un archivo `.env` en la raíz del proyecto (puedes utilizar el `.env.template` como referencia).
+   Ensure you have a `.env` file at the root of the project (you can use `.env.template` as a reference).
 
-### Ejecución desde DockerHub
-1. Descargar la imagen desde DockerHub:
+### Running from DockerHub
+1. Pull the image from DockerHub:
    ```sh
    docker pull metawiser/order-management-system-app:latest
    ```
-2. Ejecutar la aplicación con Docker:
+2. Run the application with Docker:
    ```sh
    docker run -p 3000:3000 --env-file .env metawiser/order-management-system-app:latest
    ```
 
-## Configuración del Entorno
-- Hay un archivo `.env.template` que contiene todas las variables de entorno necesarias. Debes crear un archivo `.env` basado en este template y configurarlo con los valores correspondientes para tu entorno.
-- Variables más importantes:
-  - `MONGO_URI`: URI de conexión a la base de datos MongoDB.
-  - `JWT_SECRET`: Clave secreta utilizada para firmar los tokens de autenticación.
+## Environment Configuration
+- There is a `.env.template` file that contains all the necessary environment variables. You need to create a `.env` file based on this template and configure it with the appropriate values for your environment.
+- Key variables:
+  - `MONGO_URI`: MongoDB connection URI.
+  - `JWT_SECRET`: Secret key used for signing authentication tokens.
 
-## Autenticación y Autorización
-MMS Order Management System utiliza **JWT** para la autenticación de usuarios. Los tokens se generan al momento del inicio de sesión y se utilizan para proteger las rutas de la API.
+## Authentication and Authorization
+MMS Order Management System uses **JWT** for user authentication. Tokens are generated during login and used to protect API routes.
 
-La aplicación tiene tres roles principales: **Cliente**, **Empleado** y **Administrador**. Cada rol tiene diferentes permisos:
-- **Cliente**: puede crear órdenes.
-- **Empleado**: puede asignarse a una orden y cambiar el estado de una orden.
-- **Administrador**: puede gestionar todos los usuarios y órdenes, incluyendo la creación, asignación y eliminación de usuarios.
+The application has three main roles: **Client**, **Employee**, and **Admin**. Each role has different permissions:
+- **Client**: Can create orders.
+- **Employee**: Can assign themselves to an order and change the order status.
+- **Admin**: Can manage all users and orders, including creating, assigning, and deleting users.
 
-## Documentación de la API GraphQL
-Puedes explorar la API utilizando **Apollo Sandbox** accediendo a `/graphql` en el navegador. Aquí se encuentran disponibles todos los esquemas y mutaciones para interactuar con la aplicación.
+## GraphQL API Documentation
+You can explore the API using **Apollo Sandbox** by accessing `/graphql` in your browser. Here, all the schemas and mutations are available to interact with the application. You can also access the collection of operations using the following link: [GraphQL Collection](http://localhost:3000/graphql?collectionId=7d4ac47f-2deb-4fd3-9343-b871ee94adb2&focusCollectionId=7d4ac47f-2deb-4fd3-9343-b871ee94adb2).
 
 Ejemplos de consultas:
 ```graphql
@@ -110,26 +110,27 @@ mutation {
 }
 ```
 
-## Scripts Disponibles
-Los scripts disponibles están definidos en el archivo `package.json`:
+## Available Scripts
+The available scripts are defined in the `package.json` file:
 
-- **`npm run build`**: Construye la aplicación para producción.
-- **`npm run start`**: Inicia la aplicación en modo producción.
-- **`npm run start:dev`**: Inicia la aplicación en modo desarrollo con recarga automática.
-- **`npm run start:prod`**: Ejecuta el código compilado en `dist`.
-- **`npm run test`**: Ejecuta todas las pruebas unitarias.
-- **`npm run test:e2e`**: Ejecuta pruebas end-to-end.
-- **`npm run lint`**: Analiza el código para buscar y arreglar problemas de estilo.
+- **`npm run build`**: Builds the application for production.
+- **`npm run start`**: Starts the application in production mode.
+- **`npm run start:dev`**: Starts the application in development mode with hot reloading.
+- **`npm run start:prod`**: Runs the compiled code in `dist`.
+- **`npm run test`**: Runs all unit tests.
+- **`npm run test:e2e`**: Runs end-to-end tests.
+- **`npm run lint`**: Analyzes code to find and fix styling issues.
 
-## Pruebas
-La aplicación incluye pruebas unitarias y end-to-end (e2e) utilizando **Jest**. Para ejecutar estas pruebas:
+## Testing
+The application includes unit tests and end-to-end (e2e) tests using **Jest**. To run these tests:
 
-- Pruebas unitarias: `npm run test`
-- Pruebas end-to-end: `npm run test:e2e`
-- Cobertura de pruebas: `npm run test:cov`
+- Unit tests: `npm run test`
+- End-to-end tests: `npm run test:e2e`
+- Test coverage: `npm run test:cov`
 
 ---
-**Author**: Carlos Zamora
+## Contact
+**Carlos Zamora** 
 - **GitHub**: [@metawiser](https://github.com/metawiser)
 - **LinkedIn**: [linkedin.com/in/carlos-zamora-n/](https://www.linkedin.com/in/carlos-zamora-n/)
 - **Web**: [thecarloszamora.com](https://thecarloszamora.com)
