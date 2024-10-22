@@ -8,7 +8,7 @@ import { Model } from 'mongoose';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/inputs/create-user.input';
 import { UserNotFoundException } from './errors/user-not-found.exception';
-import { ValidRoles } from 'src/auth/enums/valid-roles.enum';
+import { ValidRoles } from '../auth/enums/valid-roles.enum';
 
 @Injectable()
 export class UsersService {

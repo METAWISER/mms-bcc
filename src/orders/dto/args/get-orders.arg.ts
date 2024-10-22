@@ -1,6 +1,6 @@
 import { ArgsType, Field } from '@nestjs/graphql';
 import { IsEnum, IsOptional } from 'class-validator';
-import { OrderStatus } from 'src/orders/enums/order-status.enum';
+import { OrderStatus } from '../../../orders/enums/order-status.enum';
 
 @ArgsType()
 export class GetOrdersArgs {

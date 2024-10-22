@@ -3,10 +3,10 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { OrdersService } from './orders.service';
 import { Order } from './entities/order.entity';
 import { CreateOrderInput } from './dto/inputs/create-order.input';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { ValidRoles } from 'src/auth/enums/valid-roles.enum';
-import { User } from 'src/users/entities/user.entity';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { ValidRoles } from '../auth/enums/valid-roles.enum';
+import { User } from '../users/entities/user.entity';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { GetOrdersArgs } from './dto/args/get-orders.arg';
 import { AssignEmployeeInput } from './dto/inputs/assign-employee.input';
 
