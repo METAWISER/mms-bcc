@@ -128,5 +128,8 @@ La aplicación incluye pruebas unitarias y end-to-end (e2e) utilizando **Jest**.
 - Pruebas end-to-end: `npm run test:e2e`
 - Cobertura de pruebas: `npm run test:cov`
 
-Estas pruebas aseguran que todas las funcionalidades principales estén correctamente implementadas y que el sistema se comporte como se espera en diferentes escenarios.
-
+---
+**Author**: Carlos Zamora
+- **GitHub**: [@metawiser](https://github.com/metawiser)
+- **LinkedIn**: [linkedin.com/in/carlos-zamora-n/](https://www.linkedin.com/in/carlos-zamora-n/)
+- **Web**: [thecarloszamora.com](https://thecarloszamora.com)
