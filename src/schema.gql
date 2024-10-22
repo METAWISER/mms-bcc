@@ -47,6 +47,9 @@ type Mutation {
   """Assign an employee to an order"""
   assignEmployee(assignEmployeeInput: AssignEmployeeInput!): Order!
 
+  """Mark an order as completed"""
+  completeOrder(orderId: String!): Order!
+
   """Create an order, only available for clients"""
   createOrder(createOrderInput: CreateOrderInput!): Order!
 
@@ -87,10 +90,9 @@ type Order {
 
 """Different states an order can be in"""
 enum OrderStatus {
-  CANCELLED
   COMPLETED
   IN_PROGRESS
-  PENDING
+  OPEN
 }
 
 type Product {

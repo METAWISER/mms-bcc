@@ -22,7 +22,7 @@ export class Order extends Document {
   products?: string[];
 
   @Field(() => OrderStatus, { description: 'Order status' })
-  @Prop({ type: String, enum: OrderStatus, default: OrderStatus.PENDING })
+  @Prop({ type: String, enum: OrderStatus, default: OrderStatus.OPEN })
   status: OrderStatus;
 
   @Field(() => User, {
