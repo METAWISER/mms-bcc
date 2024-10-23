@@ -11,6 +11,6 @@ import { DomainModule } from '../domain/domain.module';
     DomainModule,
   ],
   providers: [UserResolver, UsersService],
-  exports: [UsersService],
+  exports: [UsersService, MongooseModule],
 })
 export class UsersModule {}
