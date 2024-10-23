@@ -19,7 +19,7 @@ services:
     depends_on:
       - mongo
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGO_URI=${DOCKER_MONGO_URI}
     env_file:
       - .env
     volumes:
