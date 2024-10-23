@@ -58,6 +58,9 @@ type Mutation {
 
   """Delete a user"""
   deleteUser(getUserArgs: GetUserArgs!): User
+
+  """Executes the build of the database"""
+  executeSeed: Boolean!
   login(loginInput: LoginInput!): AuthResponse!
   signup(signupInput: SignupInput!): AuthResponse!
 }
