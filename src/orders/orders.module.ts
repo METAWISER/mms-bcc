@@ -11,5 +11,6 @@ import { ProductsModule } from '../products/products.module';
     ProductsModule,
   ],
   providers: [OrdersResolver, OrdersService],
+  exports: [OrdersService, MongooseModule],
 })
 export class OrdersModule {}
