@@ -6,6 +6,7 @@ import { AppModule } from './../src/app.module';
 describe('AppController (e2e)', () => {
   let app: INestApplication;
   let createdUserId: string;
+  let jwtToken: string = 'anotheruser@example.com';
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -14,6 +15,32 @@ describe('AppController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+
+    const mutation = `
+      mutation {
+        signup(signupInput: { name: "Admin User", email: "adminuser@example.com", password: "123456", roles: [ADMIN] }) {
+          token
+          user {
+            _id
+            name
+            email
+            roles
+          }
+        }
+      }
+    `;
+
+    const response = await request(app.getHttpServer())
+      .post('/graphql')
+      .send({ query: mutation });
+
+    if (!response.body.data || !response.body.data.signup) {
+      console.error('Error during signup:', response.body.errors);
+      throw new Error('Failed to signup and obtain JWT token');
+    }
+
+    jwtToken = response.body.data.signup.token;
+    createdUserId = response.body.data.signup.user._id;
   });
 
   afterAll(async () => {
@@ -35,6 +62,7 @@ describe('AppController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post('/graphql')
+      .set('Authorization', `Bearer ${jwtToken}`)
       .send({ query })
       .expect(200);
 
@@ -42,33 +70,7 @@ describe('AppController (e2e)', () => {
     expect(response.body.data.users).toBeInstanceOf(Array);
   });
 
-  it('/graphql (POST) - should create a user', async () => {
-    const mutation = `
-      mutation {
-        createUser(createUserInput: { name: "Test User", email: "testuser@example.com", password: "password123" }) {
-          _id
-          name
-          email
-        }
-      }
-    `;
-
-    const response = await request(app.getHttpServer())
-      .post('/graphql')
-      .send({ query: mutation })
-      .expect(200);
-
-    expect(response.body.data).toBeDefined();
-    expect(response.body.data.createUser).toHaveProperty('name', 'test user');
-    expect(response.body.data.createUser).toHaveProperty(
-      'email',
-      'testuser@example.com',
-    );
-
-    createdUserId = response.body.data.createUser._id;
-  });
-
-  it('/graphql (POST) - should delete a user', async () => {
+  it('/graphql (POST) - should delete a user by ID', async () => {
     const mutation = `
       mutation DeleteUser($getUserArgs: GetUserArgs!) {
         deleteUser(getUserArgs: $getUserArgs) {
@@ -87,14 +89,15 @@ describe('AppController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post('/graphql')
+      .set('Authorization', `Bearer ${jwtToken}`)
       .send({ query: mutation, variables })
       .expect(200);
 
     expect(response.body.data).toBeDefined();
-    expect(response.body.data.deleteUser).toHaveProperty('name', 'test user');
+    expect(response.body.data.deleteUser).toHaveProperty('name', 'admin user');
     expect(response.body.data.deleteUser).toHaveProperty(
       'email',
-      'testuser@example.com',
+      'adminuser@example.com',
     );
   });
 });
