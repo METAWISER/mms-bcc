@@ -41,9 +41,9 @@ To run the application in a local environment, you will need the following:
 ### Running with Docker
 1. Build the Docker image:
    ```sh
-   docker build -t mms-order-management-system .
+   docker build -t order-management-system .
    ```
-2. Run the application with Docker:
+2. Run the application with Docker(OPTIONAL):
    ```sh
    docker run -p 3000:3000 --env-file .env mms-order-management-system
    ```
@@ -76,7 +76,21 @@ The application has three main roles: **Client**, **Employee**, and **Admin**. E
 ## GraphQL API Documentation
 You can explore the API using **Apollo Sandbox** by accessing `/graphql` in your browser. Here, all the schemas and mutations are available to interact with the application. You can also access the collection of operations using the following link: [GraphQL Collection](http://localhost:3000/graphql?collectionId=7d4ac47f-2deb-4fd3-9343-b871ee94adb2&focusCollectionId=7d4ac47f-2deb-4fd3-9343-b871ee94adb2).
 
-Ejemplos de consultas:
+### Running the SEED
+
+1. Visit the site
+```localhost:3000/graphql```
+
+2. Run the __executeSeed__ "mutation" to populate the database
+```graphql
+mutation Mutation {
+  executeSeed
+}
+```
+
+
+Query example:
+
 ```graphql
 query Orders {
   orders {
@@ -95,7 +109,7 @@ query Orders {
   }
 }
 ```
-Ejemplo de mutación:
+Mutation example:
 ```graphql
 mutation {
   createOrder(createOrderInput: $createOrderInput) {
