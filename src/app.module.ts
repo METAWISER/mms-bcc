@@ -11,6 +11,7 @@ import { OrdersModule } from './orders/orders.module';
 import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
 import { DomainModule } from './domain/domain.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { DomainModule } from './domain/domain.module';
     ProductsModule,
     AuthModule,
     DomainModule,
+    SeedModule,
   ],
   controllers: [],
   providers: [],
