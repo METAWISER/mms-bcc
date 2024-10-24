@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  mongo:
+  mongodb:
     image: mongo:5
     container_name: mongodb
     restart: always
@@ -9,6 +9,8 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+    networks:
+      - mms-net
 
   app:
     build: .
@@ -17,7 +19,7 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - mongo
+      - mongodb
     environment:
       - MONGO_URI=${DOCKER_MONGO_URI}
     env_file:
@@ -26,6 +28,11 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     command: npm run start:dev
+    networks:
+      - mms-net
 
+networks:
+  mms-net:
+    driver: bridge
 volumes:
   mongo-data:
