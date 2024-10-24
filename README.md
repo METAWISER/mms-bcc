@@ -148,3 +148,4 @@ The application includes unit tests and end-to-end (e2e) tests using **Jest**. T
 - **GitHub**: [@metawiser](https://github.com/metawiser)
 - **LinkedIn**: [linkedin.com/in/carlos-zamora-n/](https://www.linkedin.com/in/carlos-zamora-n/)
 - **Web**: [thecarloszamora.com](https://thecarloszamora.com)
+
