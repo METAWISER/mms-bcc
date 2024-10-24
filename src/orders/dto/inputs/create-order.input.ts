@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsArray, IsNotEmpty } from 'class-validator';
+import { ArrayNotEmpty, IsArray } from 'class-validator';
 
 @InputType()
 export class CreateOrderInput {
@@ -7,6 +7,6 @@ export class CreateOrderInput {
     description: 'List of product IDs included in the order',
   })
   @IsArray()
-  @IsNotEmpty({ message: 'Products are required' })
+  @ArrayNotEmpty({ message: 'Products are required' })
   products: string[];
 }
