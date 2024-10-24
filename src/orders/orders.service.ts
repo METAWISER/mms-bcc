@@ -43,12 +43,14 @@ export class OrdersService {
     const { status } = getOrdersArgs;
 
     const filter = status ? { status } : {};
-    return (await this.orderModel
+    const orders = await this.orderModel
       .find(filter)
       .populate('user')
       .populate('assignedEmployee')
       .lean()
-      .exec()) as Order[];
+      .exec();
+
+    return orders.filter((order) => order.user !== null) as Order[];
   }
 
   async assignEmployee(
