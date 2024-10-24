@@ -34,9 +34,9 @@ export class OrdersService {
       ...createOrderInput,
       user: user._id,
       total,
-    });
+    }).populate('user');
 
-    return (await newOrder.save()).toObject();
+    return (await (await newOrder).save()).toObject();
   }
 
   async findAll(getOrdersArgs: GetOrdersArgs): Promise<Order[]> {
